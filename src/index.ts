@@ -1,6 +1,6 @@
-import { executionAsyncResource, createHook } from "node:async_hooks";
+import { executionAsyncResource, createHook } from 'node:async_hooks';
 
-const context = Symbol("context");
+const context = Symbol('context');
 
 function enableContext() {
   createHook({
