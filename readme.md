@@ -1,12 +1,14 @@
 # Async Context For Node
 
-## Why
+Create global context for async function call chain.
+[![npm version](https://badge.fury.io/js/cntx.svg)](https://badge.fury.io/js/cntx)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-When dealing with nested async functions (like in request handlers), it is often necessary to pass context from one function to the next. This can be cumbersome and error prone. You can't use a global variable because it will be overwritten by concurrent requests.
+## Purpose
 
-With the power of node's async hooks, `cntx` provides a way to store and retrieve context without passing it around as a parameter. With every async function call, the context is automatically passed to the next function in the call chain.
+`cntx` is a lightweight npm package that simplifies the management of context in nested async functions, particularly in scenarios like request handlers. It eliminates the need for passing context as parameters or relying on global variables, which can lead to errors and conflicts in concurrent environments.
 
-`cntx` is meant to be simple and lightweight with easy to use API. If you need multiple namespaces, you can build on top of `cntx` to create your own context manager.
+By utilizing Node's async hooks, `cntx` automatically propagates context to the subsequent async functions in the call chain. It offers an easy-to-use API and can serve as a foundation for building custom context managers with multiple namespaces.
 
 ## Installation
 
@@ -16,7 +18,7 @@ npm install cntx --save
 
 ## Usage
 
-You'd need to call `cntx.enable()` once at the beginning of your program to enable async hooks.
+To enable async hooks, call `cntx.enable()` at the beginning of your program.
 
 ```js
 import { cntx } from 'cntx';
@@ -24,7 +26,7 @@ import { cntx } from 'cntx';
 cntx.enable();
 ```
 
-To initialize context, you can use `cntx({key: value})` to initialize context for the current async call chain.
+You can use `cntx({key: value})` to initialize context for the current async call chain.
 Calling `cntx()` with no arguments will return the current context.
 
 ### Example
