@@ -1,6 +1,6 @@
 {
   "name": "cntx",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "create and use context for async functions in node",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
