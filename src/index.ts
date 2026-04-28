@@ -11,7 +11,7 @@ let contextHook: ReturnType<typeof createHook>;
 function enableContext() {
   if (!contextHook) {
     contextHook = createHook({
-      init(asyncId, type, triggerAsyncId, resource: ContextResource<unknown>) {
+      init(_asyncId, _type, _triggerAsyncId, resource: ContextResource<unknown>) {
         const parentResource = executionAsyncResource() as ContextResource<unknown>;
         if (parentResource && Object.prototype.hasOwnProperty.call(parentResource, context)) {
           resource[context] = parentResource[context];
