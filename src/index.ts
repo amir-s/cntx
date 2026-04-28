@@ -2,11 +2,15 @@ import { executionAsyncResource, createHook } from 'node:async_hooks';
 
 const context = Symbol('context');
 
+type ContextResource<T> = {
+  [context]?: T;
+};
+
 function enableContext() {
   createHook({
-    init(asyncId, type, triggerAsyncId, resource: never) {
-      const parentResource = executionAsyncResource() as never;
-      if (parentResource) {
+    init(asyncId, type, triggerAsyncId, resource: ContextResource<unknown>) {
+      const parentResource = executionAsyncResource() as ContextResource<unknown>;
+      if (parentResource && Object.prototype.hasOwnProperty.call(parentResource, context)) {
         resource[context] = parentResource[context];
       }
     },
@@ -14,8 +18,13 @@ function enableContext() {
 }
 
 export function cntx<T>(init?: T): T {
-  const resource = executionAsyncResource() as { context: T };
-  resource[context] = init ? init : resource[context] || {};
+  const resource = executionAsyncResource() as ContextResource<T>;
+  if (arguments.length > 0) {
+    resource[context] = init;
+  } else if (!Object.prototype.hasOwnProperty.call(resource, context)) {
+    resource[context] = {} as T;
+  }
+
   return resource[context];
 }
 cntx.enable = enableContext;
