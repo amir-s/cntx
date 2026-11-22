@@ -63,14 +63,28 @@ const server = http
   .listen(3000, 'localhost');
 ```
 
-In the code above we use `cntx({requestId: ...})` to initialize the context with a random request id. We then use `cntx()` to retrieve the request id in the `log` (which is used deep in the `queryDB` funciton) function without passing it as a parameter.
+In the code above we use `cntx({requestId: ...})` to initialize the context with a random request id. We then use `cntx()` to retrieve the request id in the `log` (which is used deep in the `queryDB` function) function without passing it as a parameter.
 
 ## API
 
 ### `cntx(context)`
 
-- `context` - An object containing the context to be stored. If no argument is passed, the current context is returned.
+- `context` - The value to store, usually an object. Values such as `false`, `0`, `''`, and `null` are preserved. Omitting the argument or passing `undefined` returns the current context, creating an empty object if none exists.
+
+Child async operations inherit the same context value. Initialize a fresh object for each request before starting its async work; mutating an inherited object also affects other operations sharing that object.
 
 ### `cntx.enable()`
 
-Enables async hooks. This needs to be called once at the beginning of your program.
+Enables async hooks. Call this at the beginning of your program. Repeated calls reuse the same hook.
+
+## Development
+
+Use Node.js 22.13+ and Yarn 1.22.22. CI checks Node.js 22, 24, and 26.
+
+```bash
+yarn install --frozen-lockfile
+yarn run check # lint, formatting, build, and regression tests
+yarn audit # check development dependencies for known vulnerabilities
+```
+
+Run `yarn format` to format source, tests, and configuration. The published package has no runtime dependencies.

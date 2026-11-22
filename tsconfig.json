@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "allowJs": true,
+    "target": "ES2020",
+    "module": "Node16",
     "declaration": true,
+    "rootDir": "./src",
     "outDir": "./lib",
-    "strict": false,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "strict": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "types": ["node"],
+    "esModuleInterop": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "include": ["src"]
 }
